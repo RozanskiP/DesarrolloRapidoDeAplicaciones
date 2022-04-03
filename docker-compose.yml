@@ -1,0 +1,30 @@
+version: '3.3'
+
+services:
+  db:
+    image: microsoft/mssql-server-linux:latest
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_PID=Express
+      - SA_PASSWORD=1234
+    expose:
+      - 1234
+  server:
+    build:
+      context: ./server/server
+      dockerfile: Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Docker
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+  ui:
+    build:
+      context: ./ui
+      dockerfile: dockerfile.ui
+    ports:
+    - "5006:80"
+    depends_on:
+      - server
+    
