@@ -20,7 +20,10 @@ namespace server.Models
             optionsBuilder.UseSqlServer(_connectionString);
         }
 
-        //public DbSet<Puzzle> Puzzle { get; set; }
+        public DbSet<Group> Group { get; set; }
 
+        public DbSet<Member> Member { get; set; }
+
+        public DbSet<Student> Student { get; set; }
     }
 }

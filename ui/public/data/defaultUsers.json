@@ -1,0 +1,14 @@
+[
+  {
+    "uuid": 1,
+    "email": "pawir4@wp.pl",
+    "login": "pawir",
+    "password": "xd"
+  },
+  {
+    "uuid": 2,
+    "email": "rafalek@wp.pl",
+    "login": "rafal",
+    "password": "123"
+  }
+]
