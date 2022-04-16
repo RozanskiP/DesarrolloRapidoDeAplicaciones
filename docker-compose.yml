@@ -2,15 +2,18 @@ version: '3.3'
 
 services:
   db:
-    image: mcr.microsoft.com/mssql/server
-    container_name: mssql
+    image: postgres:latest
+    container_name: postgresdb
+    restart: always
     environment:
-      - SA_PASSWORD=123
-      - ACCEPT_EULA=Y
+      HOST: "localhost"
+      POSTGRES_USER: "UserPawel"
+      POSTGRES_PASSWORD: "PasswordPawel"
+      POSTGRES_DB: "postgresdb"
     ports:
-      - "1433:1433"
-    volumes:
-      - ./mssql_volume:/var/opt/mssql
+      - "5432:5432"
+    volumes: 
+      - db:/var/lib/postgresql/data
   server:
     build:
       context: ./server
@@ -35,4 +38,7 @@ services:
     volumes:        
       - '.:/app'
       - '/app/node_modules'
+volumes:
+  db:
+    driver: local
     

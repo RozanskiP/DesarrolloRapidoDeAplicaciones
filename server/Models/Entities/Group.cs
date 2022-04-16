@@ -12,7 +12,7 @@ namespace server.Models.Entities
         public int Id { get; set; }
 
         [Required]
-        public int Name { get; set; }
+        public string Name { get; set; }
 
         public string Description { get; set; }
 
