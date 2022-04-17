@@ -10,7 +10,8 @@ namespace server.Models
     public class StoreContext : DbContext
     {
         private string _connectionString = "Server=localhost,1433; Database=project_individual; User=sa; Password=password;";
-        private string _connectionStringDocker = "host=db;port=5432;database=postgresdb;username=UserPawel;password=PasswordPawel";
+        private string _connectionStringDocker = "host=localhost;port=5432;database=postgresdb;username=UserPawel;password=PasswordPawel";
+        private string _connectionStringDockerCompose = "host=db;port=5432;database=postgresdb;username=UserPawel;password=PasswordPawel";
 
         public StoreContext(DbContextOptions<StoreContext> options) : base(options)
         {

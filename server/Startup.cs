@@ -30,7 +30,7 @@ namespace server
         {
             services.AddDbContext<StoreContext>(opt =>
                 //opt.UseSqlServer(Configuration.GetConnectionString("ProjectIndividual"))
-                //opt.UseSqlServer(Configuration.GetConnectionString("ProjectIndividualDocker"))
+                //opt.UseNpgsql(Configuration.GetConnectionString("ProjectIndividualDockerCompose"))
                 opt.UseNpgsql(Configuration.GetConnectionString("ProjectIndividualDocker"))
             );
 

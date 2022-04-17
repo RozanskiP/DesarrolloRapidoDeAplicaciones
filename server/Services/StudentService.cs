@@ -9,7 +9,6 @@ namespace server.Services
 {
     public class StudentService
     {
-
         private readonly StoreContext storeContext;
 
         public StudentService(StoreContext storeContext)

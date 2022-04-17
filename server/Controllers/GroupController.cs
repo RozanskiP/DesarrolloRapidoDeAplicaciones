@@ -7,28 +7,28 @@ namespace server.Controllers
 {
     [ApiController]
     [Route("api/[controller]/[action]")]
-    public class StudentController : ControllerBase
+    public class GroupController : ControllerBase
     {
-        private readonly StudentService studentService;
+        private readonly GroupService groupService;
 
-        public StudentController(StoreContext storeContext)
+        public GroupController(StoreContext storeContext)
         {
-            this.studentService = new StudentService(storeContext);
+            this.groupService = new GroupService(storeContext);
         }
 
         [HttpGet]
-        public IActionResult GetAllStudent()
+        public IActionResult GetAllGroup()
         {
-            var result = studentService.GetAll();
+            var result = groupService.GetAll();
 
             return Ok(result);
         }
 
         [HttpGet]
         [Route("{id}")]
-        public IActionResult GetByIdStudnet([FromRoute]int id)
+        public IActionResult GetByIdGroup([FromRoute] int id)
         {
-            var response = studentService.Get(id);
+            var response = groupService.Get(id);
 
             if (response != null)
             {
@@ -41,9 +41,9 @@ namespace server.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddNewStudent([FromBody] Student student)
+        public IActionResult AddNewGroup([FromBody] Group group)
         {
-            var response = studentService.Post(student);
+            var response = groupService.Post(group);
 
             if (response != null)
             {
@@ -54,5 +54,6 @@ namespace server.Controllers
                 return Conflict("Its incorrect data");
             }
         }
+
     }
 }
