@@ -20,7 +20,5 @@ namespace server.Models.Entities
         public string WhatStudentTo { get; set; }
 
         public int GroupId { get; set; }
-
-        public Group Group { get; set; }
     }
 }

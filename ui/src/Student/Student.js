@@ -21,7 +21,7 @@ const Student = (props) => {
       <div className="m-3">
         <Card className="text-center">
           <Card.Header>
-            {props.student.subject} - {props.student.group}
+            {props.student.subject}
           </Card.Header>
           <Card.Body>
             <Card.Title>{props.student.name}</Card.Title>
@@ -47,11 +47,7 @@ const Student = (props) => {
               </button>
             </Card.Text>
           </Card.Body>
-          <Card.Footer className="text-muted">
-            {props.student.tags.map((val) => {
-              return <>{val}, </>;
-            })}
-          </Card.Footer>
+          <Card.Footer className="text-muted">{props.student.tags}</Card.Footer>
         </Card>
       </div>
     </Container>

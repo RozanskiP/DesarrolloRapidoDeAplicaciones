@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using server.Models;
+using server.Models.Entities;
 using server.Services;
 using System;
 using System.Collections.Generic;
@@ -20,11 +21,27 @@ namespace server.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAllStudent()
+        public IActionResult GetAllmember()
         {
             var result = memberService.GetAll();
 
             return Ok(result);
+        }
+
+
+        [HttpPost]
+        public IActionResult AddNewMembers([FromBody] Member[] member)
+        {
+            var response = memberService.Post(member);
+
+            if (response != null)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return Conflict("Its incorrect data");
+            }
         }
     }
 }

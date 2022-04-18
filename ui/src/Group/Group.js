@@ -39,7 +39,7 @@ const Group = (props) => {
             </button>
           </Card.Body>
           <Card.Footer className="text-muted">
-            {props.group.members.map((val) => {
+            {props.group.member.map((val) => {
               return (
                 <>
                   {val.studentName} - {val.whatStudentTo},{" "}

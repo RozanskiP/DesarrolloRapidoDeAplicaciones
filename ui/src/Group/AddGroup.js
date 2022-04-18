@@ -2,9 +2,11 @@ import React, { useContext, useState } from "react";
 import ModalInput from "../components/ModalInput";
 import { NavLink, useNavigate } from "react-router-dom";
 import { ListOfGroupsContext } from "../state/Contex";
+import axios from "axios";
+import { Api_Url } from "../environment";
 
 const AddGroup = () => {
-  const { groups, setGroups } = useContext(ListOfGroupsContext);
+  const { refreshGroups } = useContext(ListOfGroupsContext);
   const navigate = useNavigate();
 
   const [name, setName] = useState();
@@ -26,35 +28,40 @@ const AddGroup = () => {
       return;
     }
 
-    let groupToChange = {
-      id: Number(
-        Math.max.apply(
-          Math,
-          groups.map((value) => {
-            return value.id;
-          })
-        ) + 1
-      ),
-      name: name,
-      description: description,
-      subject: subject,
-    };
+    axios
+      .post(Api_Url + "Group/AddNewGroup", {
+        name: name,
+        description: description,
+        subject: subject,
+      })
+      .then((response) => {
+        if (response.request.status === 200) {
+          let temporaryGroupOfMembers = [];
+          for (let i = 0; i < Object.keys(member).length / 3; i++) {
+            let memberNew = {
+              studentName: member["studentName-" + i],
+              email: member["email-" + i],
+              whatStudentTo: member["whatStudentTo-" + i],
+              groupId: response.data.id,
+            };
+            temporaryGroupOfMembers.push(memberNew);
+          }
 
-    let temporaryGroupOfMembers = [];
-    for (let i = 0; i < Object.keys(member).length / 3; i++) {
-      let memberNew = {
-        id: 1,
-        studentName: member["studentName-" + i],
-        email: member["email-" + i],
-        whatStudentTo: member["whatStudentTo-" + i],
-      };
-      temporaryGroupOfMembers.push(memberNew);
-    }
-
-    groupToChange.members = temporaryGroupOfMembers;
-
-    const updateGroup = [...groups, groupToChange];
-    setGroups(updateGroup);
+          axios
+            .post(Api_Url + "Member/AddNewMembers", temporaryGroupOfMembers)
+            .then((resp) => {
+              if (resp.status === 200) {
+                console.log("Correct added group with memebers");
+                refreshGroups();
+              }
+            });
+        } else {
+          console.log("ERROR");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
 
     // clear inputs
     setName("");

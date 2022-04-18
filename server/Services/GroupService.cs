@@ -1,4 +1,5 @@
-﻿using server.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using server.Models;
 using server.Models.Entities;
 using System;
 using System.Collections.Generic;
@@ -16,9 +17,9 @@ namespace server.Services
             this.storeContext = storeContext;
         }
 
-        public IEnumerable<Group> GetAll()
+        public List<Group> GetAll()
         {
-            var groups = storeContext.Groups.Select(x => x);
+            var groups = storeContext.Groups.Include("Member").ToList();
 
             return groups;
         }
@@ -43,7 +44,5 @@ namespace server.Services
                 return null;
             }
         }
-
-
     }
 }

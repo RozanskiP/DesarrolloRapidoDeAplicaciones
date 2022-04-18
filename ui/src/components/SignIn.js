@@ -1,9 +1,10 @@
+import axios from "axios";
 import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { LoggedUser, UsersContext } from "../state/Contex";
+import { LoggedUser } from "../state/Contex";
+import { Api_Url } from "../environment";
 
 const SignIn = () => {
-  const { users } = useContext(UsersContext);
   const { login } = useContext(LoggedUser);
   const navigate = useNavigate();
 
@@ -16,17 +17,21 @@ const SignIn = () => {
   const handleSetPassword = (e) => setPassword(e.target.value);
 
   const handleLogin = () => {
-    for (const number in users) {
-      if (
-        users[number].login === loginText &&
-        users[number].password === password
-      ) {
-        login(users[number].uuid);
-        navigate("/", { replace: true });
-      } else {
+    axios
+      .post(Api_Url + "User/Login", {
+        login: loginText,
+        password: password,
+      })
+      .then((resp) => {
+        if (resp.status === 200) {
+          login(resp.data.uuid, resp.data.email, resp.data.login);
+          navigate("/", { replace: true });
+        }
+      })
+      .catch((err) => {
         setError("Incorrect login or password!");
-      }
-    }
+        console.log("Error in logging: " + err);
+      });
   };
 
   return (

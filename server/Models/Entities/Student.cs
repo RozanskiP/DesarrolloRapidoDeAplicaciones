@@ -22,5 +22,7 @@ namespace server.Models.Entities
         public string Tags { get; set; }
 
         public string Image { get; set; }
+
+        public string Subject { get; set; }
     }
 }

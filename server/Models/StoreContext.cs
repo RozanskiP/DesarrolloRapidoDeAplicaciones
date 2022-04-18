@@ -41,8 +41,9 @@ namespace server.Models
                     Name = "Pawel",
                     Email = "pawir4@wp.pl",
                     Description = "Jestem pawel i jestem backendowcem",
-                    Tags = "c#, React, JS",
+                    Tags = "c#, React, JS, django",
                     Image = "",
+                    Subject = "PIW",
                 },
                 new Student
                 {
@@ -52,6 +53,7 @@ namespace server.Models
                     Description = "Jestem frontem",
                     Tags = "tsx, js, react",
                     Image = "",
+                    Subject = "UCISW",
                 },
                 new Student
                 {
@@ -61,6 +63,7 @@ namespace server.Models
                     Description = "fullstack",
                     Tags = "dotnet, angular",
                     Image = "",
+                    Subject = "Rapido",
                 }
             );
 

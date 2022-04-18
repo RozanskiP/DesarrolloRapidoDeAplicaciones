@@ -1,10 +1,11 @@
 import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { LoggedUser, UsersContext } from "../state/Contex";
+import { UsersContext } from "../state/Contex";
+import axios from "axios";
+import { Api_Url } from "../environment";
 
 const SignUp = () => {
-  const { users, setUsers } = useContext(UsersContext);
-  const { login } = useContext(LoggedUser);
+  const { refreshData } = useContext(UsersContext);
   const navigate = useNavigate();
 
   const [email, setEmail] = useState();
@@ -24,22 +25,24 @@ const SignUp = () => {
       return;
     }
 
-    let newUser = {
-      uuid: Number(
-        Math.max.apply(
-          Math,
-          users.map((value) => {
-            return value.uuid;
-          })
-        ) + 1
-      ),
-      email: email,
-      login: loginText,
-      password: password,
-    };
+    axios
+      .post(Api_Url + "User/AddNewUser", {
+        email: email,
+        login: loginText,
+        password: password,
+      })
+      .then((response) => {
+        if (response.request.status === 200) {
+          console.log("Correct added user");
+          refreshData();
+        } else {
+          console.log("ERROR");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
 
-    const updateUsers = [...users, newUser];
-    setUsers(updateUsers);
 
     setEmail("");
     setLoginText("");

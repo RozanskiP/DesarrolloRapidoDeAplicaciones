@@ -1,9 +1,11 @@
+import axios from "axios";
 import React, { useContext, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { ListOfStudentsContext } from "../state/Contex";
+import { Api_Url } from "../environment";
 
 const AddStudent = () => {
-  const { students, setStudents } = useContext(ListOfStudentsContext);
+  const { refreshStudents } = useContext(ListOfStudentsContext);
   const navigate = useNavigate();
 
   const [name, setName] = useState();
@@ -11,14 +13,12 @@ const AddStudent = () => {
   const [email, setEmail] = useState();
   const [description, setDescription] = useState();
   const [subject, setSubject] = useState();
-  const [group, setGroup] = useState();
 
   const handleSetName = (e) => setName(e.target.value);
   const handleSetTags = (e) => setTags(e.target.value);
   const handleSetEmail = (e) => setEmail(e.target.value);
   const handleSetDescription = (e) => setDescription(e.target.value);
   const handleSetSubject = (e) => setSubject(e.target.value);
-  const handleSetGroup = (e) => setGroup(e.target.value);
 
   // add student
   const handleSetStudents = () => {
@@ -27,33 +27,31 @@ const AddStudent = () => {
       name === undefined ||
       email === undefined ||
       description === undefined ||
-      subject === undefined ||
-      group === undefined
+      subject === undefined
     ) {
       return;
     }
 
-    let newStudent = {
-      id: Number(
-        Math.max.apply(
-          Math,
-          students.map((value) => {
-            return value.id;
-          })
-        ) + 1
-      ),
-      name: name,
-      email: email,
-      description: description,
-      subject: subject,
-      group: group,
-      image: "",
-    };
-
-    newStudent.tags = tags.split(",");
-
-    const updateStudents = [...students, newStudent];
-    setStudents(updateStudents);
+    axios
+      .post(Api_Url + "Student/AddNewStudent", {
+        name: name,
+        email: email,
+        description: description,
+        tags: tags,
+        image: "",
+        subject: subject,
+      })
+      .then((response) => {
+        if (response.request.status === 200) {
+          console.log("Correct added student");
+          refreshStudents();
+        } else {
+          console.log("ERROR");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
 
     // clear inputs
     setName("");
@@ -61,7 +59,6 @@ const AddStudent = () => {
     setEmail("");
     setDescription("");
     setSubject("");
-    setGroup("");
 
     navigate("/listofstudents", { replace: true });
   };
@@ -112,16 +109,6 @@ const AddStudent = () => {
                 name="subject"
                 placeholder="Subject Name"
                 onChange={handleSetSubject}
-              />
-            </div>
-            <div className="form-group m-3">
-              <label>Enter the day and time of classes</label>
-              <input
-                type="text"
-                className="form-control"
-                name="group"
-                placeholder="When"
-                onChange={handleSetGroup}
               />
             </div>
             <div className="form-group m-3">

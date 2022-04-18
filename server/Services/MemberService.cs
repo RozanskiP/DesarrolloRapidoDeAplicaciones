@@ -22,5 +22,19 @@ namespace server.Services
 
             return members;
         }
+
+        public Member[] Post(Member[] members)
+        {
+            try
+            {
+                storeContext.Members.AddRange(members);
+                storeContext.SaveChanges();
+                return members;
+            }
+            catch
+            {
+                return null;
+            }
+        }
     }
 }
