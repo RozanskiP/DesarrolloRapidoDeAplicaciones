@@ -30,8 +30,8 @@ namespace server
         {
             services.AddDbContext<StoreContext>(opt =>
                 //opt.UseSqlServer(Configuration.GetConnectionString("ProjectIndividual"))
-                //opt.UseNpgsql(Configuration.GetConnectionString("ProjectIndividualDockerCompose"))
-                opt.UseNpgsql(Configuration.GetConnectionString("ProjectIndividualDocker"))
+                opt.UseNpgsql(Configuration.GetConnectionString("ProjectIndividualDockerCompose"))
+                //opt.UseNpgsql(Configuration.GetConnectionString("ProjectIndividualDocker"))
             );
 
             services.AddControllers();
@@ -41,7 +41,8 @@ namespace server
                 options.AddDefaultPolicy(
                     builder =>
                     {
-                        builder.WithOrigins("https://localhost:44351", "http://localhost:4200", "http://localhost:3000")
+                        builder.WithOrigins("https://localhost:44351", "http://localhost:4200", "http://localhost:3000", "http://ui:3000",
+                                            "http://localhost:5001", "http://localhost:5000")
                                             .AllowAnyHeader()
                                             .AllowAnyMethod();
                     });
@@ -56,13 +57,19 @@ namespace server
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            {
+                var context = serviceScope.ServiceProvider.GetRequiredService<StoreContext>();
+                context.Database.Migrate();
+            }
+
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "server v1"));
             }
-
 
             app.UseHttpsRedirection();
 

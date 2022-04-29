@@ -19,7 +19,7 @@ namespace server.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql(_connectionStringDocker);
+            optionsBuilder.UseNpgsql(_connectionStringDockerCompose);
         }
 
         public DbSet<Group> Groups { get; set; }

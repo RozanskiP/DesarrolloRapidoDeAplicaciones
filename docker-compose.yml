@@ -14,6 +14,8 @@ services:
       - "5432:5432"
     volumes: 
       - db:/var/lib/postgresql/data
+    networks:
+      - global
   server:
     build:
       context: ./server
@@ -23,6 +25,8 @@ services:
       - "5000:80"
     depends_on:
       - db
+    networks:
+      - global
   ui:
     build:
       context: ./ui
@@ -38,7 +42,12 @@ services:
     volumes:        
       - '.:/app'
       - '/app/node_modules'
+    networks:
+      - global
 volumes:
   db:
     driver: local
+
+networks:
+  global:
     
