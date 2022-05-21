@@ -3,21 +3,28 @@ import { NavLink } from "react-router-dom";
 import Student from "./Student";
 import { Container } from "react-bootstrap";
 import { ListOfStudentsContext } from "../state/Contex";
+import { useNavigate } from "react-router-dom";
 
 const ListOfStudents = () => {
   const { students, setStudents } = useContext(ListOfStudentsContext);
+  const [loaded, setLoaded] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    setStudents(
-      students.map((elem) => {
-        if (elem.image === "") {
-          fetch("https://picsum.photos/210/300").then((img) => {
-            elem.image = img.url;
-          });
-        }
-        return elem;
-      })
-    );
+    if (students !== undefined) {
+      setStudents(
+        students.map((elem) => {
+          if (elem.image.length === 0) {
+            fetch("https://picsum.photos/210/300").then((img) => {
+              elem.image = img.url;
+            });
+          }
+          return elem;
+        })
+      );
+    } else {
+      navigate("/");
+    }
   }, []);
 
   // checkboxs
@@ -37,7 +44,7 @@ const ListOfStudents = () => {
   };
 
   // lista do sortowania studentow
-  const filterListStudents = students.filter((student) => {
+  const filterListStudents = students?.filter((student) => {
     return radioCheckbox === "radioDescriptionStudent"
       ? student.description.toLowerCase().includes(filter.toLowerCase())
       : radioCheckbox === "radioTagsStudent"
@@ -65,7 +72,7 @@ const ListOfStudents = () => {
                 checked={radioCheckbox === "radioDescriptionStudent"}
                 onChange={handleSetRadioCheckbox}
               />
-              <label className="form-check-label">Opis</label>
+              <label className="form-check-label">Description</label>
             </div>
             <div className="form-check">
               <input
@@ -104,8 +111,15 @@ const ListOfStudents = () => {
             </div>
           </div>
         </Container>
-        {filterListStudents.map((val, index) => {
-          return <Student student={val} key={index} />;
+        {filterListStudents?.map((val, index) => {
+          return (
+            <Student
+              student={val}
+              key={index}
+              loaded={loaded}
+              setLoaded={setLoaded}
+            />
+          );
         })}
       </div>
     </div>

@@ -41,7 +41,7 @@ namespace server
                 options.AddDefaultPolicy(
                     builder =>
                     {
-                        builder.WithOrigins("https://localhost:44351", "http://localhost:4200", "http://localhost:3000", "http://ui:3000",
+                        builder.WithOrigins("https://localhost:44351", "http://localhost:4200", "http://localhost:3000", "http://localhost:3000",
                                             "http://localhost:5001", "http://localhost:5000")
                                             .AllowAnyHeader()
                                             .AllowAnyMethod();

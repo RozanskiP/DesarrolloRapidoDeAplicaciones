@@ -3,10 +3,13 @@ import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { LoggedUser } from "../state/Contex";
 import { Api_Url } from "../environment";
+import { useDispatch } from "react-redux";
+import { addStudent, addGroup } from "../store/cart";
 
 const SignIn = () => {
   const { login } = useContext(LoggedUser);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [loginText, setLoginText] = useState();
   const [password, setPassword] = useState();
@@ -25,6 +28,23 @@ const SignIn = () => {
       .then((resp) => {
         if (resp.status === 200) {
           login(resp.data.uuid, resp.data.email, resp.data.login);
+
+          axios
+            .get(`${Api_Url}StudnetObserve/${resp.data.uuid}`)
+            .then((response) => {
+              for (let elem in response.data) {
+                dispatch(addStudent(response.data[elem]));
+              }
+            });
+
+          axios
+            .get(`${Api_Url}GroupObserve/${resp.data.uuid}`)
+            .then((response) => {
+              for (let elem in response.data) {
+                dispatch(addGroup(response.data[elem]));
+              }
+            });
+
           navigate("/", { replace: true });
         }
       })

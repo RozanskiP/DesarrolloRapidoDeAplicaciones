@@ -21,10 +21,10 @@ const StudentInfo = () => {
         </p>
         <hr className="my-4" />
         <p>{choosenStudent.description}</p>
-        <img src={choosenStudent.image} alt="not working :(" />
+        <img src={choosenStudent.image} alt="Student" />
         <hr className="my-4" />
         <p>
-          {choosenStudent.tags.map((val) => {
+          {choosenStudent?.tags.map((val) => {
             return <>{val}, </>;
           })}
         </p>

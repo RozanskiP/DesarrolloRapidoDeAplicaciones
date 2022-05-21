@@ -23,7 +23,7 @@ const Header = () => {
               className="btn btn-secondary mx-3 btn-lg"
               to="/listofstudents"
             >
-              Grupa looking for students
+              Group looking for students
             </NavLink>
             <NavLink
               className="btn btn-secondary mx-3 btn-lg"
@@ -32,7 +32,7 @@ const Header = () => {
               Student looking for group
             </NavLink>
           </Nav>
-          {loggedUser.uuid !== 0 ? (<Nav>
+          {loggedUser?.uuid !== 0 ? (<Nav>
             <NavLink
               className="btn btn-success btn-lg mx-2"
               to="/cartcomp"
@@ -41,7 +41,7 @@ const Header = () => {
             </NavLink>
           </Nav>) : null}
           <Nav>
-            {loggedUser.uuid === 0 ? (
+            {loggedUser?.uuid === 0 ? (
               <UnloggedApp />
             ) : (
               <LoggedApp loggedUser={loggedUser} />

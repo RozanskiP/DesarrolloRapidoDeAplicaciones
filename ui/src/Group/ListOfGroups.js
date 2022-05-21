@@ -1,11 +1,19 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import Group from "./Group";
 import { ListOfGroupsContext } from "../state/Contex";
+import { useNavigate } from "react-router-dom";
 
 const ListOfGroups = () => {
   const { groups } = useContext(ListOfGroupsContext);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (groups === undefined) {
+      navigate("/");
+    }
+  }, []);
 
   const [radioCheckbox, setRadioCheckbox] = useState("radioDescription");
 
@@ -19,7 +27,7 @@ const ListOfGroups = () => {
     setFilter(event.target.value);
   };
 
-  const filterListGroup = groups.filter((group) => {
+  const filterListGroup = groups?.filter((group) => {
     return radioCheckbox === "radioDescription"
       ? group.description.toLowerCase().includes(filter.toLowerCase())
       : group.subject.toLowerCase().includes(filter.toLowerCase());
@@ -73,8 +81,8 @@ const ListOfGroups = () => {
             </div>
           </div>
         </Container>
-        {filterListGroup.map((val, index) => {
-          return <Group group={val} key={index} />;
+        {filterListGroup?.map((val) => {
+          return <Group group={val} key={`${val}-${val.id}`} />;
         })}
       </div>
     </div>

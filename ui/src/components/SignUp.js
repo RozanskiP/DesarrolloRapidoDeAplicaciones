@@ -11,17 +11,25 @@ const SignUp = () => {
   const [email, setEmail] = useState();
   const [loginText, setLoginText] = useState();
   const [password, setPassword] = useState();
+  const [secondPassword, setSecondPassword] = useState();
 
   const handleSetEmail = (e) => setEmail(e.target.value);
   const handleSetLogin = (e) => setLoginText(e.target.value);
   const handleSetPassword = (e) => setPassword(e.target.value);
+  const handleSetSecondPassword = (e) => setSecondPassword(e.target.value);
 
   const handleSetUsers = () => {
     if (
       email === undefined ||
       loginText === undefined ||
-      password === undefined
+      password === undefined ||
+      secondPassword === undefined
     ) {
+      return;
+    }
+
+    if (password !== secondPassword) {
+      console.log("Passwords must be the same");
       return;
     }
 
@@ -43,10 +51,10 @@ const SignUp = () => {
         console.log(error);
       });
 
-
     setEmail("");
     setLoginText("");
     setPassword("");
+    setSecondPassword("");
 
     navigate("/", { replace: true });
   };
@@ -84,6 +92,16 @@ const SignUp = () => {
                 name="password"
                 placeholder="Password"
                 onChange={handleSetPassword}
+              />
+            </div>
+            <div className="form-group m-3">
+              <label>Repeat Password</label>
+              <input
+                type="password"
+                className="form-control"
+                name="secondPassword"
+                placeholder="Repeat Password"
+                onChange={handleSetSecondPassword}
               />
             </div>
             <button className="btn btn-success" onClick={handleSetUsers}>

@@ -25,10 +25,10 @@ const Dashboard = () => {
           </div>
           {table != null ? (
             <table className="table table-striped table-bordered table-hover">
-              <tbody>
+              <tbody key="tbody">
                 {table.map((elem) => {
                   return (
-                    <tr>
+                    <tr key={`${elem.numberOfUniwersity}-${elem.totalStaff}`}>
                       <th>{elem.country}</th>
                       <th>{elem.numberOfUniwersity}</th>
                       <th>{elem.totalNumberOfStudentsInCountry}</th>

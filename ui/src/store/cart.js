@@ -3,45 +3,45 @@ import { createSlice } from "@reduxjs/toolkit";
 export const cartSlice = createSlice({
   name: "cartStudentsAndGroups",
   initialState: {
-    students: [],
-    groups: [],
+    studentsObserve: [],
+    groupsObserve: [],
   },
   reducers: {
     addStudent: (state, action) => {
       let shouldI = true;
-      state.students.forEach((item) => {
+      state.studentsObserve.forEach((item) => {
         if (item.id === action.payload.id) {
           shouldI = false;
         }
       });
       if (shouldI) {
-        state.students.push(action.payload);
+        state.studentsObserve.push(action.payload);
       }
     },
     deleteStudent: (state, action) => {
-      state.students = state.students.filter((item) => {
+      state.studentsObserve = state.studentsObserve.filter((item) => {
         return item.id !== action.payload;
       });
     },
     addGroup: (state, action) => {
       let shouldI = true;
-      state.groups.forEach((item) => {
+      state.groupsObserve.forEach((item) => {
         if (item.id === action.payload.id) {
           shouldI = false;
         }
       });
       if (shouldI) {
-        state.groups.push(action.payload);
+        state.groupsObserve.push(action.payload);
       }
     },
     deleteGroup: (state, action) => {
-      state.groups = state.groups.filter((item) => {
+      state.groupsObserve = state.groupsObserve.filter((item) => {
         return item.id !== action.payload;
       });
     },
     refresh: (state) => {
-      state.groups = [];
-      state.students = [];
+      state.studentsObserve = [];
+      state.groupsObserve = [];
     },
   },
 });

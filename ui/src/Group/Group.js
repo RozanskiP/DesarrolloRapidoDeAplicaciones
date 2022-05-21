@@ -1,19 +1,32 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Card, Container } from "react-bootstrap";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { addGroup } from "../store/cart";
+import { Api_Url } from "../environment";
+import { LoggedUser } from "../state/Contex";
+import axios from "axios";
 
 const Group = (props) => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const { loggedUser } = useContext(LoggedUser);
 
   const handleClickContact = () => {
     navigate(`/listofgroups/${props.group.id}/contact`);
   };
 
-  const handleObserve = () => {
-    dispatch(addGroup(props.group));
+  const handleObserve = (groupId) => {
+    if (loggedUser?.uuid !== 0) {
+      axios
+        .post(`${Api_Url}GroupObserve`, {
+          id: 0,
+          userId: loggedUser.uuid,
+          groupId: groupId,
+        })
+        .then((response) => {
+          console.log("Added in correct way");
+        });
+    } else {
+      alert("You need login first");
+    }
   };
 
   return (
@@ -33,7 +46,7 @@ const Group = (props) => {
             </button>
             <button
               className="btn btn-light border border-dark mx-1"
-              onClick={handleObserve}
+              onClick={() => handleObserve(props.group.id)}
             >
               Observe
             </button>

@@ -30,6 +30,10 @@ namespace server.Models
 
         public DbSet<User> Users { get; set; }
 
+        public DbSet<GroupObserve> GroupObserve { get; set; }
+
+        public DbSet<StudentObserve> StudentObserve { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
