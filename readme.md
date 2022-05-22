@@ -1,6 +1,6 @@
 # Desarrollo Rapido de Aplicaciones
 
-Project for classes on rapid development of applications for classes on my Erasumsie at the University of Almería.
+Project for classes on rapid development of applications for classes on my Erasmus at the University of Almería.
 
 ## Installation
 Fetch project and run it by:
